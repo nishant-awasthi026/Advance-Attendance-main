@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Attendance Management System</h1>
+    </header>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h2>Welcome</h2>
+        <div class="qrsec">
+            <div class="cover">
+                <img src="../../QR/Nishant Awasthi_QR.png" alt="">
+            </div>
+        </div>
+        <form action="{{ url_for('generate_qr_codes') }}" method="get">
+            <label for="batch">Select Batch:</label>
+            <select name="batch" id="batch">
+                {% for batch in batches %}
+                    <option value="{{ batch }}">{{ batch }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Generate QR Codes">
+        </form>
+        <form action="{{ url_for('mark_attendance') }}" method="get">
+            <label for="batch">Select Batch:</label>
+            <select name="batch" id="batch">
+                {% for batch in batches %}
+                    <option value="{{ batch }}">{{ batch }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Mark Attendance">
+        </form>
+        <a href="{{ url_for('manage_students') }}">Manage Students</a>
+        <a href="{{ url_for('manage_timetable') }}">Manage Timetable</a>
+    </div>
+</body>
+</html>
